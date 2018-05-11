@@ -40,7 +40,7 @@ $ python main.py [-o OPTION] [-d DATA] [-m MODEL]
 - Decoder: LSTM (Hidden Size = 512)
 
 | Layer (type)                    | Output Shape        | Param #    | Connected to                     |
-| ------------------------------- | ------------------- | ---------- | -------------------------------- |
+| ------------------------------- | ------------------- | ---------: | -------------------------------- |
 | input\_1 (InputLayer)           | (None, 7, 12)       | 0          |                                  |
 | ------------------------------- | ------------------- | ---------- | -------------------------------- |
 | bidirectional\_1 (Bidirectional)| \[(None, 512), ...  | 550912     | input\_1[0][0]                   |
@@ -85,11 +85,18 @@ $ python main.py [-o OPTION] [-d DATA] [-m MODEL]
 | Trainable params: 2,674,736     |                     |            |                                  | 
 | Non-trainable params: 0         |                     |            |                                  | 
 
-### Save Result
-- Store result in `output.txt`
+### Result
+| Iteration | Training - Loss | Training - Accuracy | Validation - Loss | Validation - Accuracy |
+| ---:      | ---:            | ---:                | ---:              | ---:                  |
+| 1         | 1.5882          | 0.4285              | 1.4052            | 0.4711                |
+| 7         | 0.2379          | 0.9257              | 0.2542            | 0.9132                |
+| 9         | 0.1509          | 0.9541              | 0.1500            | 0.9561                |
+| 15        | 0.0394          | 0.9921              | 0.0726            | 0.9773                |
+| 31        | 0.0056          | 0.9998              | 0.0305            | 0.9903                |
+| 100       | 2.9910e-04      | 1.0000              | 0.0251            | 0.9920                |
 
 ## Related Link
-- [nbviewer](https://nbviewer.jupyter.org/github/yutongshen/DSAI-HW2-BooleanSearch/blob/master/main.ipynb)
+- [nbviewer](https://nbviewer.jupyter.org/github/yutongshen/DSAI-HW3-Subtractor/blob/master/Subtractor.ipynb)
 
 ## Authors
 [Yu-Tong Shen](https://github.com/yutongshen/)
