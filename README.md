@@ -28,7 +28,7 @@ $ python main.py [-o OPTION] [-d DATA] [-m MODEL]
 | -d DATA                    | input the path of training (or generation) data|
 |                            | (default: `src/data.pkl`)                      |
 | -m MODEL                   | input the path of model                        |
-|                            | (default: `src/my\_model.h5`)                  |
+|                            | (default: `src/my_model.h5`)                  |
 
 
 ## Architecture
