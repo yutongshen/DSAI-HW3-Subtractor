@@ -8,11 +8,11 @@ DSAI HW3-Substractor
 ```sh
 $ python main.py [-o OPTION] [-d DATA] [-m MODEL]
 ```
-| General Options            | Description                                    |
+|                            | Description                                    |
 | ---                        | ---                                            |
+| General Options            |                                                |
 | -h, --help                 | show this help message and exit                |
-| ---                        | ---                                            |
-| Advance Options            | Description                                    |
+| Advance Options            |                                                |
 | -o gen                     | data generation                                |
 | -o train                   | training model                                 |
 | -o report\_training\_data  | show all training data                         |
