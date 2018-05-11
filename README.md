@@ -4,6 +4,11 @@ DSAI HW3-Substractor
 ## Prerequisite
 - Python 3.6.4
 
+## Install Dependency
+```sh
+$ pip install -r requirements.txt
+```
+
 ## Usage
 ```sh
 $ python main.py [-o OPTION] [-d DATA] [-m MODEL]
