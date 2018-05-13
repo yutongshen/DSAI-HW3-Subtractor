@@ -11,7 +11,7 @@ $ pip install -r requirements.txt
 
 ## Usage
 ```sh
-$ python main.py [-o OPTION] [-d DATA] [-m MODEL]
+$ python main.py [-o OPTION] [-t TYPE] [-d DATA] [-m MODEL]
 ```
 |                            | Description                                    |
 | ---                        | ---                                            |
