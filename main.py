@@ -5,12 +5,39 @@ import os.path
 
 
 # Parameters Config
+SUB      = 0
+SUB_ADD  = 1
+MULTIPLY = 2
 
-TRAINING_SIZE = 80000
-DIGITS = 3
-ANS_DIGITS = DIGITS + 1
-MAXLEN = DIGITS + 1 + DIGITS
-chars = '0123456789- '
+GEN_TYPE      = None
+TRAINING_SIZE = None
+DIGITS        = None
+MAXLEN        = None
+ANS_DIGITS    = None
+chars         = None
+ct            = None
+
+def set_gen_type(gen_type):
+    global GEN_TYPE
+    global ANS_DIGITS
+    global chars
+    global ct
+
+    GEN_TYPE = gen_type
+
+    ANS_DIGITS = {
+        SUB: DIGITS + 1,
+        SUB_ADD: DIGITS + 1,
+        MULTIPLY: 2 * DIGITS
+    }.get(GEN_TYPE, DIGITS + 1)
+
+    chars = {
+        SUB: '0123456789- ',
+        SUB_ADD: '0123456789+- ',
+        MULTIPLY: '0123456789* '
+    }.get(GEN_TYPE, '0123456789+-* ')
+
+    ct = CharacterTable(chars)
 
 class CharacterTable:
     def __init__(self, chars):
@@ -40,16 +67,31 @@ def generation(arg):
     questions = []
     expected = []
     seen = set()
+    operator = {
+        SUB: ['-'],
+        SUB_ADD: ['-', '+'],
+        MULTIPLY: ['*']
+    }
+    ans_switcher = {
+        '+': lambda a, b: a + b,
+        '-': lambda a, b: a - b,
+        '*': lambda a, b: a * b
+    }
+    ops = operator.get(GEN_TYPE, [None])
     print('Generating data...')
     while len(questions) < TRAINING_SIZE:
         f = lambda: random.choice(range(10 ** random.choice(range(1, DIGITS + 1))))
-        b, a = sorted((f(), f()))
-        key = tuple((a, b))
+        g = lambda: random.choice(ops)
+        a, b, op = f(), f(), g()
+        if op == '-':
+            a, b = sorted((a, b), reverse=True)
+        key = tuple((a, b, op))
         if key in seen:
             continue
         seen.add(key)
-        query = '{}-{}'.format(a, b).ljust(MAXLEN)
-        ans = str(a - b).ljust(ANS_DIGITS)
+        query = '{}{}{}'.format(a, op, b).ljust(MAXLEN)
+        ans_funct = ans_switcher.get(op, lambda a, b: float('NAN'))
+        ans = str(ans_funct(a, b)).ljust(ANS_DIGITS)
         questions.append(query)
         expected.append(ans)
     print('Total addition questions:', len(questions))
@@ -79,6 +121,8 @@ def generation(arg):
 
     data['test_x'] = x[20000:]
     data['test_y'] = y[20000:]
+
+    data['type'] = GEN_TYPE
     
     with open(arg.d, 'wb') as f:
         pickle.dump(data, f, -1)
@@ -105,7 +149,9 @@ def train(arg):
                     
         test_x = data['test_x']
         test_y = data['test_y']
-    
+        
+        set_gen_type(data['type'])
+
     HIDDEN_SIZE = 256
     
     import keras as K
@@ -149,6 +195,7 @@ def train(arg):
     # Concatenate all predictions
     decoder_outputs = Concatenate()(all_outputs)
     decoder_outputs = Reshape((ANS_DIGITS, len(chars)))(decoder_outputs)
+    decoder_outputs = Lambda(lambda x: x[:, ::-1])(decoder_outputs)
     
     # Define and compile model as previously
     model = Model(encoder_inputs, decoder_outputs)
@@ -159,7 +206,7 @@ def train(arg):
     model.summary()
     
     batch_size = int(len(train_x) / 128 / 100) * 100
-    
+
     if batch_size == 0:
         batch_size = 100
     
@@ -194,18 +241,25 @@ def report(arg, obj):
             print('Validation Data:')
             print('loss:', eva[0], 'accuracy:', eva[1])
             print()
-            eva = model.evaluate(data['test_x'], data['test_y'], verbose=False)
-            print('Testing Data:')
-            print('loss:', eva[0], 'accuracy:', eva[1])
-            print()
+            # eva = model.evaluate(data['test_x'], data['test_y'], verbose=False)
+            # print('Testing Data:')
+            # print('loss:', eva[0], 'accuracy:', eva[1])
+            # print()
     else:
         report_x = data[obj + '_x']
         report_y = data[obj + '_y']
+
+        set_gen_type(data['type'])
 
         for i in range(len(report_x)):
             print(ct.decoder(report_x[i]), '=', ct.decoder(report_y[i]))
             
 def test(arg):
+    import keras as K
+    from keras.models import Sequential, Model
+    from keras.layers.core import Dense, Activation, Lambda
+    from keras.layers import Input, LSTM, TimeDistributed, RepeatVector, Reshape, Dropout, Bidirectional, Concatenate
+    from keras.layers.normalization import BatchNormalization
     from keras.models import load_model
 
     if not os.path.exists(arg.m):
@@ -222,16 +276,16 @@ def test(arg):
         
         q_padding = q.ljust(MAXLEN)[:MAXLEN]
         test_x = ct.encoder(q_padding)
-        pred_y = model.predict(test_x.reshape(-1, 7, 12))
+        pred_y = model.predict(test_x.reshape(-1, MAXLEN, len(chars)))
         print(q, '=', ct.decoder(pred_y[0]))
 
 def help(arg = None):
-    print('usage: python main.py [-o OPTION] [-d DATA] [-m MODEL]')
+    print('usage: python main.py [-o OPTION] [-t TYPE] [-d DATA] [-m MODEL]')
     print()
     print('general options:')
     print('  -h, --help                 show this help message and exit')
     print('')
-    print('advance options:')
+    print('operational options:')
     print('  -o gen                     data generation')
     print('  -o train                   training model')
     print('  -o report_training_data    show all training data')
@@ -239,6 +293,13 @@ def help(arg = None):
     print('  -o report_testing_data     show all testing data')
     print('  -o report_accuracy         show accuracy')
     print('  -o test                    input formula by self')
+    print('')
+    print('calculational options: (default: -t sub)')
+    print('  -t sub                     subtraction')
+    print('  -t sub_add                 subtraction mix with addition')
+    print('  -t multiply                multiplication')
+    print('')
+    print('advance options:')
     print('  -d <DATA>                  input the path of training (or generation) data')
     print('                             (default: src/data.pkl)')
     print('  -m <MODEL>                 input the path of model')
@@ -261,6 +322,10 @@ if __name__ == '__main__':
                         default='unknown',
                         help='input operation.')
 
+    parser.add_argument('-t',
+                        default='sub',
+                        help='input calculation type.')
+
     parser.add_argument('-d',
                         default='src/data.pkl',
                         help='input data.')
@@ -271,19 +336,33 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    ct = CharacterTable(chars)
+    GEN_TYPE = {
+        'sub': SUB,
+        'sub_add': SUB_ADD,
+        'multiply': MULTIPLY
+    }.get(args.t, -1)
+    
+    if GEN_TYPE != -1:
+        TRAINING_SIZE = 80000
+        DIGITS = 3
+        MAXLEN = DIGITS + 1 + DIGITS
 
-    switcher = {
-        'gen':                    lambda arg: generation(arg),
-        'train':                  lambda arg: train(arg),
-        'report_training_data':   lambda arg: report(arg, 'train'),
-        'report_validation_data': lambda arg: report(arg, 'validation'),
-        'report_testing_data':    lambda arg: report(arg, 'test'),
-        'report_accuracy':        lambda arg: report(arg, 'acc'),
-        'test':                   lambda arg: test(arg)
-    }
+        set_gen_type(GEN_TYPE)
 
-    func = switcher.get(args.o, lambda arg: help(arg))
 
-    func(args)
+        switcher = {
+            'gen':                    lambda arg: generation(arg),
+            'train':                  lambda arg: train(arg),
+            'report_training_data':   lambda arg: report(arg, 'train'),
+            'report_validation_data': lambda arg: report(arg, 'validation'),
+            'report_testing_data':    lambda arg: report(arg, 'test'),
+            'report_accuracy':        lambda arg: report(arg, 'acc'),
+            'test':                   lambda arg: test(arg)
+        }
+
+        func = switcher.get(args.o, lambda arg: help(arg))
+
+        func(args)
+    else:
+        help()
 
