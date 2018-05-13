@@ -171,6 +171,8 @@ $ python main.py -o train -t sub -d src/sub_data.pkl -m src/sub_model.h5
 | 90        | 8.1144e-07      | 1.0000              | 1.2241e-04        | 1.0000                |
 | 100       | 3.8978e-07      | 1.0000              | 1.3457e-04        | 0.9999                |
 
+- Detail: [list/sub.txt](list/sub.txt)
+
 ##### Subtraction & Addition
 - Report Training Data
 ```sh
@@ -244,6 +246,8 @@ $ python main.py -o train -t sub_add -d src/sub_add_data.pkl -m src/sub_add_mode
 | 90        | 3.1497e-06      | 1.0000              | 0.0158            | 0.9954                |
 | 100       | 1.3416e-06      | 1.0000              | 0.0159            | 0.9955                |
 
+- Detail: [list/sub_add.txt](list/sub_add.txt)
+
 ##### Multiplication
 - Report Training Data
 ```sh
@@ -316,6 +320,8 @@ $ python main.py -o train -t multiply -d src/multiply_data.pkl -m src/multiply_m
 | 50        | 0.0014          | 1.0000              | 1.4167            | 0.7122                |
 | 90        | 2.1619e-05      | 1.0000              | 1.8911            | 0.7137                |
 | 100       | 8.5965e-06      | 1.0000              | 1.9949            | 0.7149                |
+
+- Detail: [list/multiply.txt](list/multiply.txt)
 
 #### Data Size
 - Training Data: 64,000

@@ -2,6 +2,7 @@
 *.swp
 
 # private
+private/
 
 # ipython
 .ipynb_checkpoints/
