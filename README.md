@@ -37,7 +37,7 @@ $ python main.py [-o OPTION] [-t TYPE] [-d DATA] [-m MODEL]
 
 
 ## Architecture
-### Data
+### Data Size
 - Training Data: 18,000
 - Validation Data: 2,000
 - Testing Data: 60,000
