@@ -94,11 +94,11 @@ $ python main.py [-o OPTION] [-t TYPE] [-d DATA] [-m MODEL]
 
 
 ### Result
-#### Data Size
-- Training Data: 18,000
-- Validation Data: 2,000
+#### Subtraction
+- Data Size
+  - Training Data: 18,000
+  - Validation Data: 2,000
 
-##### Subtraction
 - Report Training Data
 ```sh
 $ python main.py -o report_training_data -t sub -d src/sub_data.pkl
@@ -173,7 +173,11 @@ $ python main.py -o train -t sub -d src/sub_data.pkl -m src/sub_model.h5
 
 - Detail: [list/sub.txt](list/sub.txt)
 
-##### Subtraction & Addition
+#### Subtraction & Addition
+- Data Size
+  - Training Data: 18,000
+  - Validation Data: 2,000
+  
 - Report Training Data
 ```sh
 $ python main.py -o report_training_data -t sub_add -d src/sub_add_data.pkl
@@ -248,7 +252,11 @@ $ python main.py -o train -t sub_add -d src/sub_add_data.pkl -m src/sub_add_mode
 
 - Detail: [list/sub_add.txt](list/sub_add.txt)
 
-##### Multiplication
+#### Multiplication
+- Data Size
+  - Training Data: 18,000
+  - Validation Data: 2,000
+  
 - Report Training Data
 ```sh
 $ python main.py -o report_training_data -t multiply -d src/multiply_data.pkl 
@@ -323,11 +331,11 @@ $ python main.py -o train -t multiply -d src/multiply_data.pkl -m src/multiply_m
 
 - Detail: [list/multiply.txt](list/multiply.txt)
 
-#### Data Size
-- Training Data: 64,000
-- Validation Data: 16,000
-
-##### Subtraction & Addition
+#### Subtraction & Addition (Modify Data Size)
+- Data Size
+  - Training Data: 64,000
+  - Validation Data: 16,000
+  
 - Training
 
 | Iteration | Training - Loss | Training - Accuracy | Validation - Loss | Validation - Accuracy |
