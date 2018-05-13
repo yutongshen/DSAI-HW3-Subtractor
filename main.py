@@ -89,9 +89,10 @@ def generation(arg):
         if key in seen:
             continue
         seen.add(key)
-        query = '{}{}{}'.format(a, op, b).ljust(MAXLEN)
+        # query = '{}{}{}'.format(a, op, b).ljust(MAXLEN)
+        query = str(a).rjust(DIGITS) + op + str(b).rjust(DIGITS)
         ans_funct = ans_switcher.get(op, lambda a, b: float('NAN'))
-        ans = str(ans_funct(a, b)).ljust(ANS_DIGITS)
+        ans = str(ans_funct(a, b)).rjust(ANS_DIGITS)
         questions.append(query)
         expected.append(ans)
     print('Total addition questions:', len(questions))
