@@ -37,11 +37,6 @@ $ python main.py [-o OPTION] [-t TYPE] [-d DATA] [-m MODEL]
 
 
 ## Architecture
-### Data Size
-- Training Data: 18,000
-- Validation Data: 2,000
-- Testing Data: 60,000
-
 ### Model
 ![model](img/seq2seq.png)
 
@@ -96,6 +91,11 @@ $ python main.py [-o OPTION] [-t TYPE] [-d DATA] [-m MODEL]
 | Total params: 2,674,736         |                     |            |                                  | 
 | Trainable params: 2,674,736     |                     |            |                                  | 
 | Non-trainable params: 0         |                     |            |                                  | 
+
+### Data Size
+- Training Data: 18,000
+- Validation Data: 2,000
+- Testing Data: 60,000
 
 ### Result
 - Subtraction
