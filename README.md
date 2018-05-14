@@ -331,7 +331,151 @@ $ python main.py -o train -t multiply -d src/multiply_data.pkl -m src/multiply_m
 
 - Detail: [list/multiply.txt](list/multiply.txt)
 
-#### Subtraction & Addition (Modify Data Size)
+#### Subtraction & Addition (Training Data 36k, Epoch 100)
+- Data Size
+  - Training Data: 36,000
+  - Validation Data: 4,000
+  
+- Training
+```sh
+$ python main.py -o train -t sub_add -d src/sub_add_36k_data.pkl -m src/sub_add_36k_model.h5
+```
+| Iteration | Training - Loss | Training - Accuracy | Validation - Loss | Validation - Accuracy |
+| ---:      | ---:            | ---:                | ---:              | ---:                  |
+| 1         | 1.6068          | 0.4007              | 1.4364            | 0.4436                |
+| 5         | 1.2748          | 0.5034              | 1.2658            | 0.5024                |
+| 10        | 0.0419          | 0.9923              | 0.0670            | 0.9812                |
+| 20        | 0.0125          | 0.9965              | 0.0360            | 0.9879                |
+| 50        | 5.7550e-05      | 1.0000              | 9.7316e-04        | 0.9998                |
+| 90        | 1.4459e-06      | 1.0000              | 4.5983e-04        | 0.9999                |
+| 100       | 6.5803e-07      | 1.0000              | 4.5903e-04        | 0.9999                |
+
+- Detail: [list/sub_add_36k.txt](list/sub_add_36k.txt)
+
+- Report Accuracy
+```sh
+$ python main.py -o report_accuracy -t sub_add -d src/sub_add_36k_data.pkl -m src/sub_add_36k_model.h5
+```
+
+```sh
+Training Data:
+Size: 36000
+Loss: 6.278190990340388e-07 Accuracy: 1.0
+ERROR: 0 / 36000
+
+Validation Data:
+Size: 4000
+Loss: 0.0004590333171781822 Accuracy: 0.999875
+ERROR: 2 / 4000
+       predict  ans
+951+847 = 1898 1798
+766+934 = 1600 1700
+
+Testing Data:
+Size: 120000
+Loss: 0.001575953945130262 Accuracy: 0.99946875
+ERROR: 245 / 120000
+       predict  ans
+962+880 = 1742 1842
+981-603 =  368  378
+510+290 =  700  800
+328+877 = 1105 1205
+940+897 = 1737 1837
+670+932 = 1502 1602
+969+730 = 1799 1699
+985+513 = 1598 1498
+957+648 = 1505 1605
+200+900 = 1000 1100
+...
+967+880 = 1747 1847
+459+930 = 1489 1389
+298+802 = 1000 1100
+998-896 =   02  102
+948+657 = 1505 1605
+912+970 = 1782 1882
+975+966 = 1841 1941
+515+484 = 1099  999
+612+997 = 1509 1609
+985+818 = 1703 1803
+```
+#### Subtraction & Addition (Training Data 36k, Epoch 20)
+- Data Size
+  - Training Data: 36,000
+  - Validation Data: 4,000
+  
+- Training
+```sh
+$ python main.py -o train -t sub_add -d src/sub_add_36k_data_ex.pkl -m src/sub_add_36k_model_ex.h5
+```
+| Iteration | Training - Loss | Training - Accuracy | Validation - Loss | Validation - Accuracy |
+| ---:      | ---:            | ---:                | ---:              | ---:                  |
+| 1         | 1.6025          | 0.4035              | 1.4305            | 0.4465                |
+| 5         | 0.6667          | 0.7449              | 0.5669            | 0.7856                |
+| 10        | 0.0553          | 0.9870              | 0.0532            | 0.9872                |
+| 20        | 0.0014          | 1.0000              | 0.0044            | 0.9992                |
+
+- Detail: [list/sub_add_36k_ex.txt](list/sub_add_36k_ex.txt)
+
+- Report Accuracy
+```sh
+$ python main.py -o report_accuracy -t sub_add -d src/sub_add_36k_data_ex.pkl -m src/sub_add_36k_model_ex.h5
+```
+
+```sh
+Training Data:
+Size: 36000
+Loss: 0.001242045797743938 Accuracy: 1.0
+ERROR: 0 / 36000
+
+Validation Data:
+Size: 4000
+Loss: 0.004393738443963229 Accuracy: 0.9991875
+ERROR: 13 / 4000
+       predict  ans
+900- 94 =  816  806
+402-393 =   19    9
+549+551 = 1000 1100
+971-802 =  179  169
+585+106 =  791  691
+983-903 =   70   80
+892+804 = 1796 1696
+885+964 = 1949 1849
+303+801 = 1004 1104
+799-798 =   11    1
+941+840 = 1881 1781
+940+661 = 1501 1601
+983+212 = 1295 1195
+
+Testing Data:
+Size: 120000
+Loss: 0.006367363984975964 Accuracy: 0.9989416666666666
+ERROR: 494 / 120000
+       predict  ans
+693+918 = 1711 1611
+998-804 =  184  194
+837+949 = 1886 1786
+368+932 = 1200 1300
+776+919 = 1795 1695
+925-756 =  179  169
+971+525 = 1596 1496
+610+389 = 1099  999
+797-602 =  185  195
+491+410 =  801  901
+...
+910-848 =   52   62
+698-601 =   87   97
+984+635 = 1629 1619
+997+865 = 1762 1862
+682+623 = 1205 1305
+947+849 = 1896 1796
+311+268 =  479  579
+997+857 = 1754 1854
+909+890 = 1899 1799
+981-929 =   62   52
+```
+
+<--!
+#### Subtraction & Addition (Training Data 64k)
 - Data Size
   - Training Data: 64,000
   - Validation Data: 16,000
@@ -349,7 +493,7 @@ $ python main.py -o train -t multiply -d src/multiply_data.pkl -m src/multiply_m
 | 100       | 3.2996e-06      | 1.0000              | 2.9259e-04        | 0.9999                |
 
 - Detail: [Subtractor.ipynb](https://nbviewer.jupyter.org/github/yutongshen/DSAI-HW3-Subtractor/blob/master/Subtractor.ipynb)
-
+-->
 ## Related Link
 - [nbviewer](https://nbviewer.jupyter.org/github/yutongshen/DSAI-HW3-Subtractor/blob/master/Subtractor.ipynb)
 

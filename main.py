@@ -9,13 +9,16 @@ SUB      = 0
 SUB_ADD  = 1
 MULTIPLY = 2
 
-GEN_TYPE      = None
-TRAINING_SIZE = None
-DIGITS        = None
-MAXLEN        = None
-ANS_DIGITS    = None
-chars         = None
-ct            = None
+TRAINING_SIZE   = 36000
+VALIDATION_SIZE = 4000
+TESTING_SIZE    = 120000
+TOTAL_SIZE      = TRAINING_SIZE + VALIDATION_SIZE + TESTING_SIZE
+GEN_TYPE        = None
+DIGITS          = None
+MAXLEN          = None
+ANS_DIGITS      = None
+chars           = None
+ct              = None
 
 def set_gen_type(gen_type):
     global GEN_TYPE
@@ -79,7 +82,7 @@ def generation(arg):
     }
     ops = operator.get(GEN_TYPE, [None])
     print('Generating data...')
-    while len(questions) < TRAINING_SIZE:
+    while len(questions) < TOTAL_SIZE:
         f = lambda: random.choice(range(10 ** random.choice(range(1, DIGITS + 1))))
         g = lambda: random.choice(ops)
         a, b, op = f(), f(), g()
@@ -101,9 +104,6 @@ def generation(arg):
     print(expected[:10])
 
     # Processing
-    # - Size of training data: 64,000
-    # - Size of validation data: 16,000
-
     
     x = np.zeros((len(questions), MAXLEN, len(chars)), np.float32)
     y = np.zeros((len(expected), ANS_DIGITS, len(chars)), np.float32)
@@ -114,14 +114,14 @@ def generation(arg):
     
     data = {}
 
-    data['train_x'] = x[:18000]
-    data['train_y'] = y[:18000]
+    data['train_x'] = x[:TRAINING_SIZE]
+    data['train_y'] = y[:TRAINING_SIZE]
 
-    data['validation_x'] = x[18000:20000]
-    data['validation_y'] = y[18000:20000]
+    data['validation_x'] = x[TRAINING_SIZE:TRAINING_SIZE + VALIDATION_SIZE]
+    data['validation_y'] = y[TRAINING_SIZE:TRAINING_SIZE + VALIDATION_SIZE]
 
-    data['test_x'] = x[20000:]
-    data['test_y'] = y[20000:]
+    data['test_x'] = x[TRAINING_SIZE + VALIDATION_SIZE:]
+    data['test_y'] = y[TRAINING_SIZE + VALIDATION_SIZE:]
 
     data['type'] = GEN_TYPE
     
@@ -155,11 +155,15 @@ def train(arg):
 
     HIDDEN_SIZE = 256
     
-    import keras as K
-    from keras.models import Sequential, Model
-    from keras.layers.core import Dense, Activation, Lambda
-    from keras.layers import Input, LSTM, TimeDistributed, RepeatVector, Reshape, Dropout, Bidirectional, Concatenate
-    from keras.layers.normalization import BatchNormalization
+    import warnings
+    with warnings.catch_warnings():
+        warnings.filterwarnings("ignore",category=FutureWarning)
+        warnings.filterwarnings("ignore",category=UserWarning)
+        import keras as K
+        from keras.models import Sequential, Model
+        from keras.layers.core import Dense, Activation, Lambda
+        from keras.layers import Input, LSTM, TimeDistributed, RepeatVector, Reshape, Dropout, Bidirectional, Concatenate
+        from keras.layers.normalization import BatchNormalization
 
     model = Sequential()
     
@@ -212,11 +216,22 @@ def train(arg):
         batch_size = 100
     
     model.fit(train_x, train_y, 
-              batch_size=batch_size, epochs=100, 
+              batch_size=batch_size, epochs=25, 
               verbose=1, validation_data=[validation_x, validation_y])
 
     model.save(arg.m)
     print('save model successfully')
+
+def check_error(model, x, y):
+    err_list = []
+    pred = model.predict(x)
+    size = len(x)
+    for i in range(size):
+        y_str    = ct.decoder(y[i])
+        pred_str = ct.decoder(pred[i])
+        if y_str != pred_str:
+            err_list.append(ct.decoder(x[i]) + ' = ' + pred_str + ' ' + y_str)
+    return err_list
 
 def report(arg, obj):
     if not os.path.exists(arg.d):
@@ -227,25 +242,47 @@ def report(arg, obj):
             data = pickle.load(f)
 
     if obj == 'acc':
-        from keras.models import load_model
+        import warnings
+        with warnings.catch_warnings():
+            warnings.filterwarnings("ignore",category=FutureWarning)
+            from keras.models import load_model
 
         if not os.path.exists(arg.m):
             print('Model file not exist.')
             return
         else:
+            set_gen_type(data['type'])
             model = load_model(arg.m)
             eva = model.evaluate(data['train_x'], data['train_y'], verbose=False)
             print('Training Data:')
-            print('loss:', eva[0], 'accuracy:', eva[1])
+            print('Size:', len(data['train_x']))
+            print('Loss:', eva[0], 'Accuracy:', eva[1])
+            err_list = check_error(model, data['train_x'], data['train_y'])
+            print('ERROR:', len(err_list), '/', len(data['train_x']))
+            if len(err_list):
+                print('predict'.rjust(MAXLEN + ANS_DIGITS + 3), 'ans'.rjust(ANS_DIGITS))
+                print('\n'.join(err_list))
             print()
             eva = model.evaluate(data['validation_x'], data['validation_y'], verbose=False)
             print('Validation Data:')
-            print('loss:', eva[0], 'accuracy:', eva[1])
+            print('Size:', len(data['validation_x']))
+            print('Loss:', eva[0], 'Accuracy:', eva[1])
+            err_list = check_error(model, data['validation_x'], data['validation_y'])
+            print('ERROR:', len(err_list), '/', len(data['validation_x']))
+            if len(err_list):
+                print('predict'.rjust(MAXLEN + ANS_DIGITS + 3), 'ans'.rjust(ANS_DIGITS))
+                print('\n'.join(err_list))
             print()
-            # eva = model.evaluate(data['test_x'], data['test_y'], verbose=False)
-            # print('Testing Data:')
-            # print('loss:', eva[0], 'accuracy:', eva[1])
-            # print()
+            eva = model.evaluate(data['test_x'], data['test_y'], verbose=False)
+            print('Testing Data:')
+            print('Size:', len(data['test_x']))
+            print('Loss:', eva[0], 'Accuracy:', eva[1])
+            err_list = check_error(model, data['test_x'], data['test_y'])
+            print('ERROR:', len(err_list), '/', len(data['test_x']))
+            if len(err_list):
+                print('predict'.rjust(MAXLEN + ANS_DIGITS + 3), 'ans'.rjust(ANS_DIGITS))
+                print('\n'.join(err_list))
+            print()
     else:
         report_x = data[obj + '_x']
         report_y = data[obj + '_y']
@@ -256,11 +293,6 @@ def report(arg, obj):
             print(ct.decoder(report_x[i]), '=', ct.decoder(report_y[i]))
             
 def test(arg):
-    import keras as K
-    from keras.models import Sequential, Model
-    from keras.layers.core import Dense, Activation, Lambda
-    from keras.layers import Input, LSTM, TimeDistributed, RepeatVector, Reshape, Dropout, Bidirectional, Concatenate
-    from keras.layers.normalization import BatchNormalization
     from keras.models import load_model
 
     if not os.path.exists(arg.m):
@@ -344,7 +376,6 @@ if __name__ == '__main__':
     }.get(args.t, -1)
     
     if GEN_TYPE != -1:
-        TRAINING_SIZE = 80000
         DIGITS = 3
         MAXLEN = DIGITS + 1 + DIGITS
 
