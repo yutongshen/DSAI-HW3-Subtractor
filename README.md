@@ -170,7 +170,7 @@ $ python main.py -o train -t sub_add -d src/sub_add_data.pkl -m src/sub_add_mode
 | 90        | 3.1497e-06      | 1.0000              | 0.0158            | 0.9954                |
 | 100       | 1.3416e-06      | 1.0000              | 0.0159            | 0.9955                |
 
-- Detail: [list/sub_add.txt](list/sub_add.txt)
+- Detail: [list/sub\_add.txt](list/sub_add.txt)
 
 ### Subtraction & Addition (Training Data 36k, Epoch 100)
 - Data Size
@@ -191,7 +191,7 @@ $ python main.py -o train -t sub_add -d src/sub_add_36k_data.pkl -m src/sub_add_
 | 90        | 1.4459e-06      | 1.0000              | 4.5983e-04        | 0.9999                |
 | 100       | 6.5803e-07      | 1.0000              | 4.5903e-04        | 0.9999                |
 
-- Detail: [list/sub_add_36k.txt](list/sub_add_36k.txt)
+- Detail: [list/sub\_add\_36k.txt](list/sub_add_36k.txt)
 
 - Report Accuracy
 ```sh
@@ -256,7 +256,7 @@ $ python main.py -o train -t sub_add -d src/sub_add_36k_data_ex.pkl -m src/sub_a
 | 10        | 0.0553          | 0.9870              | 0.0532            | 0.9872                |
 | 20        | 0.0014          | 1.0000              | 0.0044            | 0.9992                |
 
-- Detail: [list/sub_add_36k_ex.txt](list/sub_add_36k_ex.txt)
+- Detail: [list/sub\_add\_36k\_ex.txt](list/sub_add_36k_ex.txt)
 
 - Report Accuracy
 ```sh
@@ -316,8 +316,7 @@ ERROR: 494 / 120000
 981-929 =   62   52
 ```
 
-<!--
-#### Subtraction & Addition (Training Data 64k)
+### Subtraction & Addition (Training Data 64k)
 - Data Size
   - Training Data: 64,000
   - Validation Data: 16,000
@@ -335,7 +334,6 @@ ERROR: 494 / 120000
 | 100       | 3.2996e-06      | 1.0000              | 2.9259e-04        | 0.9999                |
 
 - Detail: [Subtractor.ipynb](https://nbviewer.jupyter.org/github/yutongshen/DSAI-HW3-Subtractor/blob/master/Subtractor.ipynb)
--->
 
 ## Extra Test
 ### Subtraction Only
@@ -514,7 +512,7 @@ $ python main.py -o train -t sub_add -d src/sub_add_2_digit_data.pkl -m src/sub_
 | 20        | 0.0127          | 0.9994              | 0.0175            | 0.9990                |
 | 30        | 0.0039          | 1.0000              | 0.0063            | 0.9997                |
 
-- Detail: [list/sub_add_2_digit.txt](list/sub_add_2_digit.txt)
+- Detail: [list/sub\_add\_2\_digit.txt](list/sub_add_2_digit.txt)
 
 - Report Accuracy
 ```sh
@@ -576,7 +574,7 @@ $ python main.py -o train -t sub_add -d src/sub_add_4_digit_data.pkl -m src/sub_
 | 90        | 6.9902e-06      | 1.0000              | 0.2319            | 0.9511                |
 | 100       | 2.8605e-06      | 1.0000              | 0.2466            | 0.9504                |
 
-- Detail: [list/sub_add_4_digit.txt](list/sub_add_4_digit.txt)
+- Detail: [list/sub\_add\_4\_digit.txt](list/sub_add_4_digit.txt)
 
 - Report Accuracy
 ```sh
@@ -618,11 +616,17 @@ ERROR: 10689 / 60000
 ## Conclusion
 ### Performance
 #### Operator: (Digits: 3, Training Data Size: 18,000, Iteration: 100)
-- Subtraction Only (Acc: 1.0000) < Subtractor & Addition (Acc: 0.9955) < Multiplication (Acc: 0.7149)
+- 1st: Subtraction Only (Acc: 1.0000)
+- 2nd: Subtractor & Addition (Acc: 0.9955)
+- 3rd: Multiplication (Acc: 0.7149)
 #### Difference Digits: (Using Subtractor & Addition)
-- 2-Digits (Acc: 0.9997, Training Data Size = 7,000, Iteration: 30) < 3-Digits (Acc: 0.9955, Training Data Size = 18,000, Iteration: 100) < 4-Digits (Acc: 0.9504, Training Data Size = 18,000, Iteration: 100)
+- 1st: 2-Digits (Acc: 0.9997, Training Data Size = 7,000, Iteration: 30) 
+- 2nd: 3-Digits (Acc: 0.9955, Training Data Size = 18,000, Iteration: 100)
+- 3rd: 4-Digits (Acc: 0.9504, Training Data Size = 18,000, Iteration: 100)
 #### Difference Training Data Size: (Digits: 3, Iteration: 100, Using Subtractor & Addition)
-- Sub & Add with Training Size 36,000 (Acc: 0.9955) < Sub & Add with Training Size 36,000 (Acc: 0.9999)
+- 1st: Sub & Add with Training Size 64,000 (Acc: 0.9999)
+- 2nd: Sub & Add with Training Size 36,000 (Acc: 0.9999)
+- 3rd: Sub & Add with Training Size 18,000 (Acc: 0.9955)
 
 ## Related Link
 - [nbviewer](https://nbviewer.jupyter.org/github/yutongshen/DSAI-HW3-Subtractor/blob/master/Subtractor.ipynb)
