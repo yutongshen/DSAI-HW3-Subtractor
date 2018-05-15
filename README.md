@@ -619,7 +619,7 @@ ERROR: 10689 / 60000
 - 1st: Subtraction Only (Acc: 1.0000)
 - 2nd: Subtractor & Addition (Acc: 0.9955)
 - 3rd: Multiplication (Acc: 0.7149)
-- The model is not well for multiplication, because multiplication is more complex than addiction or subtraction.
+- **The model is not well for multiplication, because multiplication is more complex than addiction or subtraction.**
 #### Difference Digits: (Using Subtractor & Addition)
 - 1st: 2-Digits (Acc: 0.9997, Training Data Size = 7,000, Iteration: 30) 
 - 2nd: 3-Digits (Acc: 0.9955, Training Data Size = 18,000, Iteration: 100)
