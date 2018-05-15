@@ -615,7 +615,7 @@ ERROR: 10689 / 60000
 
 ## Conclusion
 ### Performance
-#### Operator: (Digits: 3, Training Data Size: 18,000, Iteration: 100)
+#### Difference Operator: (Digits: 3, Training Data Size: 18,000, Iteration: 100)
 - 1st: Subtraction Only (Acc: 1.0000)
 - 2nd: Subtractor & Addition (Acc: 0.9955)
 - 3rd: Multiplication (Acc: 0.7149)
