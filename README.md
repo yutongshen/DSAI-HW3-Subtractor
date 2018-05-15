@@ -37,7 +37,6 @@ $ python main.py [-o OPTION] [-t TYPE] [-d DATA] [-m MODEL]
 
 
 ## Architecture
-### Model
 ![model](img/seq2seq.png)
 
 - Using sequence to sequence model
@@ -93,87 +92,8 @@ $ python main.py [-o OPTION] [-t TYPE] [-d DATA] [-m MODEL]
 | Non-trainable params: 0         |                     |            |                                  | 
 
 
-### Result
-#### Subtraction
-- Data Size
-  - Training Data: 18,000
-  - Validation Data: 2,000
-
-- Report Training Data
-```sh
-$ python main.py -o report_training_data -t sub -d src/sub_data.pkl
-```
-
-```sh
- 19-  9 =   10
- 46-  3 =   43
-522-  2 =  520
-772-  7 =  765
- 93- 46 =   47
- 43-  2 =   41
- 78- 75 =    3
-815- 10 =  805
- 93-  0 =   93
-387-100 =  287
-...
-316- 63 =  253
-491- 67 =  424
-628- 78 =  550
-321-  0 =  321
-836- 61 =  775
-577- 23 =  554
-728-724 =    4
-988-984 =    4
-615-  8 =  607
-247- 24 =  223
-```
-
-- Report Validation Data
-```sh
-$ python main.py -o report_validation_data -t sub -d src/sub_data.pkl
-```
-
-```sh
-112- 61 =   51
-367-  4 =  363
-933-462 =  471
-565- 28 =  537
-941- 10 =  931
-389- 88 =  301
-639-  8 =  631
-980- 73 =  907
- 48- 44 =    4
-872- 37 =  835
-...
-996- 65 =  931
-516- 64 =  452
-610- 44 =  566
-789- 77 =  712
-325- 84 =  241
-537- 43 =  494
-870- 46 =  824
-975- 56 =  919
-514-386 =  128
-430- 28 =  402
-```
-
-- Training
-```sh
-$ python main.py -o train -t sub -d src/sub_data.pkl -m src/sub_model.h5
-```
-| Iteration | Training - Loss | Training - Accuracy | Validation - Loss | Validation - Accuracy |
-| ---:      | ---:            | ---:                | ---:              | ---:                  |
-| 1         | 1.4852          | 0.4426              | 1.2828            | 0.5065                |
-| 5         | 0.1766          | 0.9480              | 0.1467            | 0.9639                |
-| 10        | 0.0181          | 0.9963              | 0.0376            | 0.9898                |
-| 20        | 9.8986e-04      | 1.0000              | 0.0027            | 0.9995                |
-| 50        | 3.2450e-05      | 1.0000              | 5.0350e-04        | 0.9998                |
-| 90        | 8.1144e-07      | 1.0000              | 1.2241e-04        | 1.0000                |
-| 100       | 3.8978e-07      | 1.0000              | 1.3457e-04        | 0.9999                |
-
-- Detail: [list/sub.txt](list/sub.txt)
-
-#### Subtraction & Addition
+## Result
+### Subtraction & Addition
 - Data Size
   - Training Data: 18,000
   - Validation Data: 2,000
@@ -252,86 +172,7 @@ $ python main.py -o train -t sub_add -d src/sub_add_data.pkl -m src/sub_add_mode
 
 - Detail: [list/sub_add.txt](list/sub_add.txt)
 
-#### Multiplication
-- Data Size
-  - Training Data: 18,000
-  - Validation Data: 2,000
-  
-- Report Training Data
-```sh
-$ python main.py -o report_training_data -t multiply -d src/multiply_data.pkl 
-```
-
-```sh
- 48* 22 =   1056
-765*450 = 344250
-  9*362 =   3258
-415*174 =  72210
-  9*529 =   4761
- 55*692 =  38060
-510*507 = 258570
-504*765 = 385560
-  8* 64 =    512
-  3*784 =   2352
-...
-931* 82 =  76342
-744*735 = 546840
-266*837 = 222642
-929*350 = 325150
- 45*308 =  13860
-  6*508 =   3048
-143*346 =  49478
- 56*155 =   8680
-471* 70 =  32970
- 27*114 =   3078
-```
-
-- Report Validation Data
-```sh
-$ python main.py -o report_validation_data -t multiply -d src/multiply_data.pkl 
-```
-
-```sh
-  8*747 =   5976
- 74*627 =  46398
- 84* 92 =   7728
-  0*698 =      0
-  0*799 =      0
- 97*659 =  63923
-560* 48 =  26880
-358* 20 =   7160
-768*184 = 141312
-  3*188 =    564
-...
-  1*278 =    278
-  9*960 =   8640
- 33*245 =   8085
- 27*820 =  22140
- 77*556 =  42812
- 63* 41 =   2583
-368*206 =  75808
-  2*741 =   1482
-481* 99 =  47619
-  7*165 =   1155
-```
-
-- Training
-```sh
-$ python main.py -o train -t multiply -d src/multiply_data.pkl -m src/multiply_model.h5
-```
-| Iteration | Training - Loss | Training - Accuracy | Validation - Loss | Validation - Accuracy |
-| ---:      | ---:            | ---:                | ---:              | ---:                  |
-| 1         | 1.5895          | 0.4119              | 1.5240            | 0.4108                |
-| 5         | 1.1138          | 0.5550              | 1.1871            | 0.5237                |
-| 10        | 0.7988          | 0.7009              | 0.8966            | 0.6535                |
-| 20        | 0.3836          | 0.8751              | 0.8373            | 0.7067                |
-| 50        | 0.0014          | 1.0000              | 1.4167            | 0.7122                |
-| 90        | 2.1619e-05      | 1.0000              | 1.8911            | 0.7137                |
-| 100       | 8.5965e-06      | 1.0000              | 1.9949            | 0.7149                |
-
-- Detail: [list/multiply.txt](list/multiply.txt)
-
-#### Subtraction & Addition (Training Data 36k, Epoch 100)
+### Subtraction & Addition (Training Data 36k, Epoch 100)
 - Data Size
   - Training Data: 36,000
   - Validation Data: 4,000
@@ -398,7 +239,8 @@ ERROR: 245 / 120000
 612+997 = 1509 1609
 985+818 = 1703 1803
 ```
-#### Subtraction & Addition (Training Data 36k, Epoch 20)
+
+### Subtraction & Addition (Training Data 36k, Epoch 20)
 - Data Size
   - Training Data: 36,000
   - Validation Data: 4,000
@@ -494,6 +336,294 @@ ERROR: 494 / 120000
 
 - Detail: [Subtractor.ipynb](https://nbviewer.jupyter.org/github/yutongshen/DSAI-HW3-Subtractor/blob/master/Subtractor.ipynb)
 -->
+
+## Extra Test
+### Subtraction Only
+- Data Size
+  - Training Data: 18,000
+  - Validation Data: 2,000
+
+- Report Training Data
+```sh
+$ python main.py -o report_training_data -t sub -d src/sub_data.pkl
+```
+
+```sh
+ 19-  9 =   10
+ 46-  3 =   43
+522-  2 =  520
+772-  7 =  765
+ 93- 46 =   47
+ 43-  2 =   41
+ 78- 75 =    3
+815- 10 =  805
+ 93-  0 =   93
+387-100 =  287
+...
+316- 63 =  253
+491- 67 =  424
+628- 78 =  550
+321-  0 =  321
+836- 61 =  775
+577- 23 =  554
+728-724 =    4
+988-984 =    4
+615-  8 =  607
+247- 24 =  223
+```
+
+- Report Validation Data
+```sh
+$ python main.py -o report_validation_data -t sub -d src/sub_data.pkl
+```
+
+```sh
+112- 61 =   51
+367-  4 =  363
+933-462 =  471
+565- 28 =  537
+941- 10 =  931
+389- 88 =  301
+639-  8 =  631
+980- 73 =  907
+ 48- 44 =    4
+872- 37 =  835
+...
+996- 65 =  931
+516- 64 =  452
+610- 44 =  566
+789- 77 =  712
+325- 84 =  241
+537- 43 =  494
+870- 46 =  824
+975- 56 =  919
+514-386 =  128
+430- 28 =  402
+```
+
+- Training
+```sh
+$ python main.py -o train -t sub -d src/sub_data.pkl -m src/sub_model.h5
+```
+| Iteration | Training - Loss | Training - Accuracy | Validation - Loss | Validation - Accuracy |
+| ---:      | ---:            | ---:                | ---:              | ---:                  |
+| 1         | 1.4852          | 0.4426              | 1.2828            | 0.5065                |
+| 5         | 0.1766          | 0.9480              | 0.1467            | 0.9639                |
+| 10        | 0.0181          | 0.9963              | 0.0376            | 0.9898                |
+| 20        | 9.8986e-04      | 1.0000              | 0.0027            | 0.9995                |
+| 50        | 3.2450e-05      | 1.0000              | 5.0350e-04        | 0.9998                |
+| 90        | 8.1144e-07      | 1.0000              | 1.2241e-04        | 1.0000                |
+| 100       | 3.8978e-07      | 1.0000              | 1.3457e-04        | 0.9999                |
+
+- Detail: [list/sub.txt](list/sub.txt)
+
+### Multiplication
+- Data Size
+  - Training Data: 18,000
+  - Validation Data: 2,000
+  
+- Report Training Data
+```sh
+$ python main.py -o report_training_data -t multiply -d src/multiply_data.pkl 
+```
+
+```sh
+ 48* 22 =   1056
+765*450 = 344250
+  9*362 =   3258
+415*174 =  72210
+  9*529 =   4761
+ 55*692 =  38060
+510*507 = 258570
+504*765 = 385560
+  8* 64 =    512
+  3*784 =   2352
+...
+931* 82 =  76342
+744*735 = 546840
+266*837 = 222642
+929*350 = 325150
+ 45*308 =  13860
+  6*508 =   3048
+143*346 =  49478
+ 56*155 =   8680
+471* 70 =  32970
+ 27*114 =   3078
+```
+
+- Report Validation Data
+```sh
+$ python main.py -o report_validation_data -t multiply -d src/multiply_data.pkl 
+```
+
+```sh
+  8*747 =   5976
+ 74*627 =  46398
+ 84* 92 =   7728
+  0*698 =      0
+  0*799 =      0
+ 97*659 =  63923
+560* 48 =  26880
+358* 20 =   7160
+768*184 = 141312
+  3*188 =    564
+...
+  1*278 =    278
+  9*960 =   8640
+ 33*245 =   8085
+ 27*820 =  22140
+ 77*556 =  42812
+ 63* 41 =   2583
+368*206 =  75808
+  2*741 =   1482
+481* 99 =  47619
+  7*165 =   1155
+```
+
+- Training
+```sh
+$ python main.py -o train -t multiply -d src/multiply_data.pkl -m src/multiply_model.h5
+```
+| Iteration | Training - Loss | Training - Accuracy | Validation - Loss | Validation - Accuracy |
+| ---:      | ---:            | ---:                | ---:              | ---:                  |
+| 1         | 1.5895          | 0.4119              | 1.5240            | 0.4108                |
+| 5         | 1.1138          | 0.5550              | 1.1871            | 0.5237                |
+| 10        | 0.7988          | 0.7009              | 0.8966            | 0.6535                |
+| 20        | 0.3836          | 0.8751              | 0.8373            | 0.7067                |
+| 50        | 0.0014          | 1.0000              | 1.4167            | 0.7122                |
+| 90        | 2.1619e-05      | 1.0000              | 1.8911            | 0.7137                |
+| 100       | 8.5965e-06      | 1.0000              | 1.9949            | 0.7149                |
+
+- Detail: [list/multiply.txt](list/multiply.txt)
+
+### Subtraction & Addition (2 Digits)
+- Data Size
+  - Training Data: 7,000
+  - Validation Data: 1,000
+  - **(Universe of 2 digits +/- 2 digits : 100 * 100 + 100 * 100 / 2 = 15,000)**
+  
+- Training
+```sh
+$ python main.py -o train -t sub_add -d src/sub_add_2_digit_data.pkl -m src/sub_add_2_digit_model.h5
+```
+| Iteration | Training - Loss | Training - Accuracy | Validation - Loss | Validation - Accuracy |
+| ---:      | ---:            | ---:                | ---:              | ---:                  |
+| 1         | 1.6630          | 0.3714              | 1.6070            | 0.3613                |
+| 5         | 0.9430          | 0.6412              | 0.9553            | 0.6190                |
+| 10        | 0.2967          | 0.9215              | 0.3012            | 0.9180                |
+| 20        | 0.0127          | 0.9994              | 0.0175            | 0.9990                |
+| 30        | 0.0039          | 1.0000              | 0.0063            | 0.9997                |
+
+- Detail: [list/sub_add_2_digit.txt](list/sub_add_2_digit.txt)
+
+- Report Accuracy
+```sh
+$ python main.py -o report_accuracy -t sub_add -d src/sub_add_2_digit_data.pkl -m src/sub_add_2_digit_model.h5
+```
+
+```sh
+Training Data:
+Size: 7000
+Loss: 0.003518061523192695 Accuracy: 1.0
+ERROR: 0 / 7000
+
+Validation Data:
+Size: 1000
+Loss: 0.006284935725852847 Accuracy: 0.9996666660308838
+ERROR: 1 / 1000
+    predict ans
+99+98 = 187 197
+
+Testing Data:
+Size: 6000
+Loss: 0.008213430431981882 Accuracy: 0.9991111097335815
+ERROR: 16 / 6000
+    predict ans
+99+91 = 180 190
+97+93 = 180 190
+97+98 = 185 195
+98+99 = 187 197
+90+90 = 170 180
+98+92 = 180 190
+99+79 = 188 178
+98+97 = 185 195
+93+77 = 160 170
+99+92 = 181 191
+99+97 = 186 196
+80+90 = 160 170
+97+99 = 186 196
+99+99 = 188 198
+96+99 = 185 195
+98+98 = 186 196
+```
+
+### Subtraction & Addition (4 Digits)
+- Data Size
+  - Training Data: 18,000
+  - Validation Data: 2,000
+  
+- Training
+```sh
+$ python main.py -o train -t sub_add -d src/sub_add_4_digit_data.pkl -m src/sub_add_4_digit_model.h5
+```
+| Iteration | Training - Loss | Training - Accuracy | Validation - Loss | Validation - Accuracy |
+| ---:      | ---:            | ---:                | ---:              | ---:                  |
+| 1         | 1.5832          | 0.4212              | 1.4192            | 0.4632                |
+| 5         | 0.9427          | 0.6388              | 0.9600            | 0.6311                |
+| 10        | 0.5398          | 0.7993              | 0.5990            | 0.7668                |
+| 20        | 0.0600          | 0.9882              | 0.2153            | 0.9256                |
+| 50        | 3.4128e-04      | 1.0000              | 0.1812            | 0.9498                |
+| 90        | 6.9902e-06      | 1.0000              | 0.2319            | 0.9511                |
+| 100       | 2.8605e-06      | 1.0000              | 0.2466            | 0.9504                |
+
+- Detail: [list/sub_add_4_digit.txt](list/sub_add_4_digit.txt)
+
+- Report Accuracy
+```sh
+$ python main.py -o report_accuracy -t sub_add -d src/sub_add_4_digit_data.pkl -m src/sub_add_4_digit_model.h5
+```
+
+```sh
+Training Data:
+Size: 18000
+Loss: 2.6512615141756317e-06 Accuracy: 1.0
+ERROR: 0 / 18000
+
+Validation Data:
+Size: 2000
+Loss: 0.24657463222742082 Accuracy: 0.9503999986648559
+ERROR: 355 / 2000
+          predict   ans
+8895-8453 =  3442   442
+3461+ 984 =  4545  4445
+ 642+3886 =  4538  4528
+4972+3731 =  9603  8703
+ 661- 565 =   196    96
+...
+
+Testing Data:
+Size: 60000
+Loss: 0.2454581046169003 Accuracy: 0.9498733338673909
+ERROR: 10689 / 60000
+          predict   ans
+7109- 156 =  6853  6953
+  86+8840 =  8916  8926
+5327-5164 =   173   163
+4565+6110 = 11775 10675
+ 197+4499 =  4596  4696
+...
+```
+
+
+## Conclusion
+### Performance
+#### Operator: (Digits: 3, Training Data Size: 18,000, Iteration: 100)
+- Subtraction Only (Acc: 1.0000) < Subtractor & Addition (Acc: 0.9955) < Multiplication (Acc: 0.7149)
+#### Difference Digits: (Using Subtractor & Addition)
+- 2-Digits (Acc: 0.9997, Training Data Size = 7,000, Iteration: 30) < 3-Digits (Acc: 0.9955, Training Data Size = 18,000, Iteration: 100) < 4-Digits (Acc: 0.9504, Training Data Size = 18,000, Iteration: 100)
+#### Difference Training Data Size: (Digits: 3, Iteration: 100, Using Subtractor & Addition)
+- Sub & Add with Training Size 36,000 (Acc: 0.9955) < Sub & Add with Training Size 36,000 (Acc: 0.9999)
+
 ## Related Link
 - [nbviewer](https://nbviewer.jupyter.org/github/yutongshen/DSAI-HW3-Subtractor/blob/master/Subtractor.ipynb)
 

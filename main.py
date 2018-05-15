@@ -9,12 +9,13 @@ SUB      = 0
 SUB_ADD  = 1
 MULTIPLY = 2
 
-TRAINING_SIZE   = 36000
-VALIDATION_SIZE = 4000
-TESTING_SIZE    = 120000
+DIGITS          = 4
+TRAINING_SIZE   = 18000
+VALIDATION_SIZE = 2000
+TESTING_SIZE    = 60000
+ITERATION       = 100
 TOTAL_SIZE      = TRAINING_SIZE + VALIDATION_SIZE + TESTING_SIZE
 GEN_TYPE        = None
-DIGITS          = None
 MAXLEN          = None
 ANS_DIGITS      = None
 chars           = None
@@ -216,7 +217,7 @@ def train(arg):
         batch_size = 100
     
     model.fit(train_x, train_y, 
-              batch_size=batch_size, epochs=25, 
+              batch_size=batch_size, epochs=ITERATION, 
               verbose=1, validation_data=[validation_x, validation_y])
 
     model.save(arg.m)
@@ -376,7 +377,6 @@ if __name__ == '__main__':
     }.get(args.t, -1)
     
     if GEN_TYPE != -1:
-        DIGITS = 3
         MAXLEN = DIGITS + 1 + DIGITS
 
         set_gen_type(GEN_TYPE)
