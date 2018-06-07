@@ -1,5 +1,5 @@
-# Data Science and Artificial Intelligence Practice Homework
-DSAI HW3-Substractor
+# Data Science and Artificial Intelligence Practice
+DSAI-Substractor
 
 ## Prerequisite
 - Python 3.6.4
